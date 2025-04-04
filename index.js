@@ -1,97 +1,23 @@
-const newTaskInput = document.querySelector("#wrapper input");
-const addBtn = document.querySelector("#add-btn");
-const tasksContainer = document.querySelector("#tasks");
-const error = document.querySelector("#error");
-const countValue = document.querySelector(".count-value");
-let taskCount = 0;
+//Menu
 
-const displayCount = (taskCount) => {
-  countValue.innerHTML = taskCount;
-}
+const mobileMenu = document.getElementById("mobile-menu");
+const openBtn = document.getElementById("open-menu-btn");
+const closeBtn = document.getElementById("close-menu-btn");
 
-const addTask = () => {
-  const taskName = newTaskInput.value.trim();
-  error.style.display ="none";
-  if (!taskName) {
-    setTimeout(() => {
-      error.style.display = "block";
-    }, 200);
-    return;
-  }
+openBtn.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+  openBtn.classList.toggle("hidden");
+  closeBtn.classList.toggle("hidden");
+});
+closeBtn.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+  openBtn.classList.toggle("hidden");
+  closeBtn.classList.toggle("hidden");
+});
 
-  const task = 
-  `<div class="task">
-    <input type="checkbox" class="task-check">
-    <span class="taskname">${taskName}</span>
-    <button class="edit">
-      <i class="fa-solid fa-pen-to-square"></i>
-    </button>
-    <button class="delete">
-    <i class="fa-solid fa-trash"></i>
-    </button>
-  </div>`;
+//Scroll settings
 
-  tasksContainer.insertAdjacentHTML("beforeend", task);
+let scroll = new SmoothScroll('a[href*="#"]', {
+  speed: 1000
+});
 
-  const deleteButtons = document.querySelectorAll(".delete");
-  deleteButtons.forEach((buttons) => {
-    buttons.onclick = () => {
-      buttons.parentNode.remove();
-      if (taskCount == 0) {
-        taskCount = 0;
-      }
-      else {
-        taskCount -= 1;
-      }
-      displayCount(taskCount);
-    };
-
-  });
-
-  const editButtons = document.querySelectorAll(".edit");
-
-  editButtons.forEach((editBtn) => {
-    editBtn.onclick = (e) => {
-      let targetElement = e.target;
-      if(!(e.target.className == "edit")) {
-        targetElement = e.target.parentElement;
-      }
-      newTaskInput.value = targetElement.previousElementSibling?.innerText;
-      targetElement.parentNode.remove();
-      if (checkBox.checked) {
-        taskCount += 1;
-      }
-      else {
-        taskCount -= 1;
-      }
-      displayCount(taskCount);
-    }
-  });
-
-  const tasksCheck = document.querySelectorAll(".task-check");
-  tasksCheck.forEach((checkBox) => {
-    checkBox.onchange = () => {
-      checkBox.nextElementSibling.classList.toggle("completed");
-      if(checkBox.checked) {
-        taskCount -= 1;
-
-      } else {
-        taskCount += 1;
-      }
-      displayCount(taskCount);
-    };
-  });
-
-  taskCount += 1;
-  displayCount(taskCount);
-  newTaskInput.value= "";
-};
-
-addBtn.addEventListener("click", addTask);
-
-window.onload = () => {
-  taskCount = 0;
-  newTaskInput.value = "";
-}
-
-console.log(window);
